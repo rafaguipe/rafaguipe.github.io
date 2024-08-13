@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <img src="logo.png" alt="Logo do Quiz" id="quiz-logo" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+    
+        <!-- Gera numero de 1 a 8 -->
+        <div>
+            <button id="generateButton">Girar a bússola</button>
+            <div id="randomNumber"></div>
+        </div>
+
+        <!-- bussola -->
+        <div class="compass-container">
+            <div class="slice" style="transform: rotate(0deg); background-color: blue;">1</div>
+            <div class="slice" style="transform: rotate(45deg); background-color: pink;">2</div>
+            <div class="slice" style="transform: rotate(90deg); background-color: blue;">3</div>
+            <div class="slice" style="transform: rotate(135deg); background-color: green;">4</div>
+            <div class="slice" style="transform: rotate(180deg); background-color: blue;">5</div>
+            <div class="slice" style="transform: rotate(225deg); background-color: pink;">6</div>
+            <div class="slice" style="transform: rotate(270deg); background-color: blue;">7</div>
+            <div class="slice" style="transform: rotate(315deg); background-color: green;">8</div>
+            <div class="needle"></div>
+        </div>
+
+
+
+
+         <!-- Seção Nível Evolutivo -->
+        <div id="nivelEvolutivo">
+            <h2>Escala Evolutiva</h2>
+            <div>
+                <label>
+                    <input type="checkbox" id="nivel3" checked disabled>
+                    Nível 3 (Pré-Serenão Vulgar - 25%)
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" id="nivel9">
+                    Nível 9 (Desperto - 50%)
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" id="nivel12">
+                    Nível 12 (Evoluciólogo - 75%)
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" id="nivel13">
+                    Nível 13 (Serenão - 100%)
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" id="nivel14">
+                    Nível 14 (Consciex Livre)
+                </label>
+            </div>
+        </div>
+
+        <!-- Seção Proéxis -->
+        <div id="proexis" style="margin-top: 30px;">
+            <h2>Proéxis</h2>
+            <div id="proexis-checks" style="margin-bottom: 20px;">
+                <label>
+                    <input type="checkbox" id="proexis1" onchange="checkProexis()"> Proéxis 1
+                </label><br>
+                <label>
+                    <input type="checkbox" id="proexis2" onchange="checkProexis()"> Proéxis 2
+                </label><br>
+                <label>
+                    <input type="checkbox" id="proexis3" onchange="checkProexis()"> Proéxis 3
+                </label>
+            </div>
+            <div id="complexis-text" style="display: none;">Compléxis</div> <!-- Texto oculto inicialmente -->
+        </div>
+
+        <!-- Seção Quiz -->
+        <div id="quiz" style="margin-top: 30px;">
+            <h2>Quiz</h2>
+            <div id="score" style="margin-bottom: 10px;">Pontos de Quiz: 0</div>
+            <div id="question"></div>
+            <div id="options"></div>
+            <div id="source" style="margin-top: 10px; font-style: italic;"></div>
+            <button id="next-button" style="display: none;">Próxima Pergunta</button>
+        </div>
+
+
+
+       <!-- Seção Cosmoética -->
+        <div id="cosmoetica" style="margin-top: 30px;">
+            <h2>Cosmoética</h2>
+        
+            <!-- Pontos Positivos -->
+            <div id="positive-checks" style="margin-bottom: 20px;">
+                <strong>Positivo:</strong>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                    <label>
+                        <input type="checkbox" id="positive1" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="positive2" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="positive3" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="positive4" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="positive5" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                </div>
+            </div>
+        
+            <!-- Pontos Negativos -->
+            <div id="negative-checks">
+                <strong>Negativo:</strong>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                    <label>
+                        <input type="checkbox" id="negative1" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="negative2" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="negative3" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="negative4" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="negative5" onchange="checkCosmoetica()"> <span></span>
+                    </label>
+                </div>
+            </div>
+        
+            <div id="cosmoetica-score" style="margin-top: 20px;">Pontuação: 0</div> <!-- Exibição da pontuação -->
+        </div>
+
+        <!-- Seção Holossoma -->
+        <div class="section" id="holossoma">
+            <h2>Holossoma</h2>
+            
+            <!-- Outros boxes da seção Holossoma -->
+            <!-- Coloque aqui o código dos outros boxes da seção Holossoma -->
+            <!-- Seção Holossoma -->
+           
+                <div id="checks" style="margin-bottom: 20px;">
+                    <label>
+                        <input type="checkbox" id="soma" onchange="checkHolossoma()"> Soma
+                    </label><br>
+                    <label>
+                        <input type="checkbox" id="psicosoma" onchange="checkHolossoma()"> Psicosoma
+                    </label><br>
+                    <label>
+                        <input type="checkbox" id="mentalsoma" onchange="checkHolossoma()"> Mentalsoma
+                    </label>
+                </div>
+       
+
+
+
+
+            <!-- Seção Energossoma -->
+            <div class="section" id="energossoma">
+                <h3>Chacras</h3>
+                
+                <!-- Boxes da seção Energossoma -->
+               <div id="energosoma-checks" style="margin-bottom: 20px;">
+                <label>
+                    <input type="checkbox" id="coronochacra" onchange="checkEnergosoma()"> Coronochacra
+                </label><br>
+                <label>
+                    <input type="checkbox" id="frontochacra" onchange="checkEnergosoma()"> Frontochacra
+                </label><br>
+                <label>
+                    <input type="checkbox" id="laringochacra" onchange="checkEnergosoma()"> Laringochacra
+                </label><br>
+                <label>
+                    <input type="checkbox" id="cardiochacra" onchange="checkEnergosoma()"> Cardiochacra
+                </label><br>
+                <label>
+                    <input type="checkbox" id="esplenicochacra" onchange="checkEnergosoma()"> Esplenicochacra
+                </label><br>
+                <label>
+                    <input type="checkbox" id="umbilicochacra" onchange="checkEnergosoma()"> Umbilicochacra
+                </label><br>
+                <label>
+                    <input type="checkbox" id="sexochacra" onchange="checkEnergosoma()"> Sexochacra
+                </label>
+            </div>
+
+
+
+                <!-- Adicione mais checkboxes conforme necessário -->
+            </div>
+
+            <!-- Box bloqueado inicialmente -->
+            <div>
+                <input type="checkbox" id="energossoma-final" disabled> Energossoma
+            </div>
+        </div>
+
+        
+   
+        <!-- Seção KPIs -->
+        <div id=KPIs>
+            <h2>Indicadores</h2>
+            <!-- Texto Saldo da FEP -->
+            <div id="total-score">Saldo da FEP: 0</div>
+            <!-- Texto do Checkpoint CI -->
+            <div id="ci-result"></div> <!-- Texto de resultado -->
+            
+        </div>
+    </div>
+    <script>
+
+
+const questions = 
+[
+  {
+    "question": "O que é a Conscienciologia, abordada em *Nossa Evolução*?",
+    "options": [
+      "Uma filosofia sobre a ética e moral.",
+      "Uma ciência que estuda a consciência e sua evolução.",
+      "Um método de meditação oriental."
+    ],
+    "answer": "Uma ciência que estuda a consciência e sua evolução.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "Qual é o principal objetivo do livro *Nossa Evolução*?",
+    "options": [
+      "Descrever práticas de meditação.",
+      "Explorar a evolução consciencial e fornecer ferramentas para o desenvolvimento pessoal.",
+      "Ensinar técnicas de gestão de tempo."
+    ],
+    "answer": "Explorar a evolução consciencial e fornecer ferramentas para o desenvolvimento pessoal.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "Como Waldo Vieira define a evolução consciencial?",
+    "options": [
+      "Como a melhora das habilidades interpessoais.",
+      "Como o aumento de inteligência emocional.",
+      "Como o processo de desenvolvimento e aprimoramento da consciência ao longo das vidas."
+    ],
+    "answer": "Como o processo de desenvolvimento e aprimoramento da consciência ao longo das vidas.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "O livro apresenta alguma técnica ou prática específica para a evolução pessoal?",
+    "options": [
+      "Sim, somente técnicas de meditação.",
+      "Não, apenas teorias sobre evolução.",
+      "Sim, técnicas como auto-observação e projeção consciente."
+    ],
+    "answer": "Sim, técnicas como auto-observação e projeção consciente.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "Quais são alguns dos temas principais discutidos no livro?",
+    "options": [
+      "Técnicas de yoga e dietas específicas.",
+      "História da filosofia ocidental.",
+      "Consciência, autoconhecimento, e energias pessoais."
+    ],
+    "answer": "Consciência, autoconhecimento, e energias pessoais.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "Qual é a abordagem do livro em relação às vidas passadas?",
+    "options": [
+      "Explora como as experiências de vidas passadas influenciam o desenvolvimento atual.",
+      "Apenas menciona vidas passadas de forma geral.",
+      "Foca apenas no presente, sem considerar vidas passadas."
+    ],
+    "answer": "Explora como as experiências de vidas passadas influenciam o desenvolvimento atual.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "O livro discute a relação entre consciência e energias?",
+    "options": [
+      "Sim, aborda como a consciência interage com as energias.",
+      "Sim, mas apenas superficialmente.",
+      "Não, não menciona a relação entre consciência e energias."
+    ],
+    "answer": "Sim, aborda como a consciência interage com as energias.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "Há alguma menção a técnicas de autoajuda no livro?",
+    "options": [
+      "Não, o livro foca apenas em conceitos teóricos.",
+      "Sim, técnicas relacionadas à Conscienciologia são discutidas.",
+      "Sim, mas somente técnicas de relaxamento."
+    ],
+    "answer": "Sim, técnicas relacionadas à Conscienciologia são discutidas.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "Qual é o papel da assistência no processo de evolução consciencial descrito no livro?",
+    "options": [
+      "É considerado fundamental para o próprio crescimento espiritual.",
+      "É secundário e não essencial para a evolução.",
+      "É mencionado como um conceito teórico sem aplicação prática."
+    ],
+    "answer": "É considerado fundamental para o próprio crescimento espiritual.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "Como o livro *Nossa Evolução* se diferencia de outras obras sobre desenvolvimento pessoal?",
+    "options": [
+      "Por focar apenas em técnicas de meditação.",
+      "Por discutir apenas aspectos históricos da filosofia.",
+      "Por sua abordagem baseada na Conscienciologia e perspectiva multidimensional."
+    ],
+    "answer": "Por sua abordagem baseada na Conscienciologia e perspectiva multidimensional.",
+    "source": "Vieira, Waldo. *Nossa Evolução*. 1ª edição, 2000."
+  },
+  {
+    "question": "O que é a Conscienciologia, conforme abordado no livro *O Que É Conscienciologia*?",
+    "options": [
+      "Um estudo das religiões comparadas.",
+      "Uma ciência que estuda a consciência e suas manifestações.",
+      "Uma técnica de desenvolvimento pessoal baseada em meditação."
+    ],
+    "answer": "Uma ciência que estuda a consciência e suas manifestações.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Qual é o foco principal da Conscienciologia?",
+    "options": [
+      "A análise de fenômenos espirituais.",
+      "A evolução da consciência e o estudo das experiências de vida.",
+      "O estudo das tradições religiosas e filosóficas."
+    ],
+    "answer": "A evolução da consciência e o estudo das experiências de vida.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Qual é a abordagem da Conscienciologia em relação às múltiplas vidas?",
+    "options": [
+      "Ela ignora a ideia de múltiplas vidas e se concentra apenas na vida presente.",
+      "Ela considera as múltiplas vidas como um fator crucial para entender a evolução da consciência.",
+      "Ela discute múltiplas vidas apenas de forma teórica e não prática."
+    ],
+    "answer": "Ela considera as múltiplas vidas como um fator crucial para entender a evolução da consciência.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Como a Conscienciologia define a energia consciente?",
+    "options": [
+      "Como um conceito abstrato sem relevância prática.",
+      "Como uma força vital que influencia a saúde e o desenvolvimento pessoal.",
+      "Como uma forma de energia relacionada apenas à meditação."
+    ],
+    "answer": "Como uma força vital que influencia a saúde e o desenvolvimento pessoal.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Qual é o papel da autoexperimentação na Conscienciologia?",
+    "options": [
+      "É secundário e não recomendado.",
+      "É fundamental para a prática e o entendimento dos fenômenos conscienciais.",
+      "É abordado apenas em teorias e não aplicado na prática."
+    ],
+    "answer": "É fundamental para a prática e o entendimento dos fenômenos conscienciais.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Qual é a definição de 'projeção consciente' na Conscienciologia?",
+    "options": [
+      "Um estado de relaxamento profundo sem consciência.",
+      "A capacidade de projetar a consciência para fora do corpo físico em experiências extrafísicas.",
+      "Uma técnica de visualização usada em meditação."
+    ],
+    "answer": "A capacidade de projetar a consciência para fora do corpo físico em experiências extrafísicas.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Como a Conscienciologia aborda o conceito de 'assistência'?",
+    "options": [
+      "Como uma prática opcional sem impacto significativo.",
+      "Como uma técnica importante para ajudar outras consciências e promover a evolução mútua.",
+      "Como um conceito filosófico sem aplicação prática."
+    ],
+    "answer": "Como uma técnica importante para ajudar outras consciências e promover a evolução mútua.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Qual é a visão da Conscienciologia sobre a comunicação entre consciências?",
+    "options": [
+      "A comunicação entre consciências é vista como inexistente.",
+      "A comunicação entre consciências é fundamental e pode ocorrer em diferentes dimensões.",
+      "A comunicação é apenas um aspecto teórico sem relevância prática."
+    ],
+    "answer": "A comunicação entre consciências é fundamental e pode ocorrer em diferentes dimensões.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Como a Conscienciologia vê a relação entre mente e corpo?",
+    "options": [
+      "A relação é vista como separada e independente.",
+      "A mente e o corpo são considerados interligados e influenciam mutuamente a evolução da consciência.",
+      "A mente é vista como uma extensão do corpo sem influência significativa."
+    ],
+    "answer": "A mente e o corpo são considerados interligados e influenciam mutuamente a evolução da consciência.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Qual é o propósito da pesquisa e experimentação na Conscienciologia?",
+    "options": [
+      "A pesquisa é considerada irrelevante para o desenvolvimento pessoal.",
+      "A pesquisa e experimentação visam compreender e desenvolver a consciência de maneira prática e aplicada.",
+      "A pesquisa é restrita à teoria sem aplicação prática."
+    ],
+    "answer": "A pesquisa e experimentação visam compreender e desenvolver a consciência de maneira prática e aplicada.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "Como a Conscienciologia propõe que se alcance o autoconhecimento?",
+    "options": [
+      "Através de estudos teóricos sem prática aplicada.",
+      "Através da autoexperimentação e da análise das próprias experiências conscienciais.",
+      "Através de práticas religiosas tradicionais."
+    ],
+    "answer": "Através da autoexperimentação e da análise das próprias experiências conscienciais.",
+    "source": "Vieira, Waldo. *O Que É Conscienciologia*. 1ª edição, 1994."
+  },
+  {
+    "question": "O que é o Conscienciograma, conforme descrito no livro de Waldo Vieira?",
+    "options": [
+      "Um teste de avaliação da evolução da consciência.",
+      "Uma análise das tradições religiosas.",
+      "Um guia de práticas espirituais."
+    ],
+    "answer": "Um teste de avaliação da evolução da consciência.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "Qual é o propósito principal do Conscienciograma?",
+    "options": [
+      "Estudar as práticas religiosas ao longo da história.",
+      "Avaliar o progresso da consciência em termos de evolução e desenvolvimento.",
+      "Desenvolver técnicas de meditação."
+    ],
+    "answer": "Avaliar o progresso da consciência em termos de evolução e desenvolvimento.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "Como o Conscienciograma contribui para o autoconhecimento?",
+    "options": [
+      "Apenas apresentando teorias sobre evolução consciencial.",
+      "Oferecendo um método para medir e refletir sobre o desenvolvimento pessoal e espiritual.",
+      "Fornecendo práticas de meditação sem avaliação."
+    ],
+    "answer": "Oferecendo um método para medir e refletir sobre o desenvolvimento pessoal e espiritual.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "Qual é a abordagem do Conscienciograma em relação à autoavaliação?",
+    "options": [
+      "É uma parte secundária do processo de evolução.",
+      "É uma ferramenta essencial para autoavaliação e crescimento pessoal.",
+      "Não é utilizado para autoavaliação, mas para avaliação de outros."
+    ],
+    "answer": "É uma ferramenta essencial para autoavaliação e crescimento pessoal.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "Quais são os principais aspectos avaliados pelo Conscienciograma?",
+    "options": [
+      "Aspectos históricos da filosofia.",
+      "Aspectos de desenvolvimento pessoal e consciência multidimensional.",
+      "Somente práticas de meditação."
+    ],
+    "answer": "Aspectos de desenvolvimento pessoal e consciência multidimensional.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "Qual é o papel da autoobservação no Conscienciograma?",
+    "options": [
+      "É um componente fundamental para compreender o progresso da consciência.",
+      "É utilizado apenas para práticas de meditação.",
+      "É opcional e não muito relevante."
+    ],
+    "answer": "É um componente fundamental para compreender o progresso da consciência.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "O Conscienciograma é utilizado para avaliar aspectos de qual área específica?",
+    "options": [
+      "Desenvolvimento espiritual e evolução consciencial.",
+      "Conhecimento acadêmico.",
+      "Habilidades profissionais."
+    ],
+    "answer": "Desenvolvimento espiritual e evolução consciencial.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "Qual é a relação entre o Conscienciograma e a Conscienciologia?",
+    "options": [
+      "O Conscienciograma é uma ferramenta criada dentro do contexto da Conscienciologia.",
+      "Não há relação entre o Conscienciograma e a Conscienciologia.",
+      "O Conscienciograma é uma prática de uma religião específica."
+    ],
+    "answer": "O Conscienciograma é uma ferramenta criada dentro do contexto da Conscienciologia.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "Como o Conscienciograma pode ser aplicado no dia a dia?",
+    "options": [
+      "Como uma ferramenta para monitorar e refletir sobre o progresso pessoal e espiritual.",
+      "Somente como um exercício teórico sem aplicação prática.",
+      "Como uma técnica de meditação sem avaliação."
+    ],
+    "answer": "Como uma ferramenta para monitorar e refletir sobre o progresso pessoal e espiritual.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+  {
+    "question": "Qual é a importância do Conscienciograma para a evolução consciencial?",
+    "options": [
+      "É irrelevante para o processo de evolução.",
+      "É importante porque oferece uma maneira sistemática de avaliar e refletir sobre a evolução da consciência.",
+      "É usado apenas para fins acadêmicos."
+    ],
+    "answer": "É importante porque oferece uma maneira sistemática de avaliar e refletir sobre a evolução da consciência.",
+    "source": "Vieira, Waldo. *Conscienciograma*. 1ª edição, 2003."
+  },
+    {
+        "question": "O que é a Projeciologia segundo Waldo Vieira?",
+        "options": [
+            "O estudo das projeções da consciência, também conhecidas como experiências fora do corpo.",
+            "Uma técnica de meditação avançada.",
+            "Uma teoria sobre a evolução biológica."
+        ],
+        "answer": "O estudo das projeções da consciência, também conhecidas como experiências fora do corpo.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "Qual é um dos principais objetivos da Projeciologia?",
+        "options": [
+            "Fortalecer as tradições religiosas.",
+            "Promover o autoconhecimento através da experiência fora do corpo.",
+            "Ensinar técnicas de controle mental."
+        ],
+        "answer": "Promover o autoconhecimento através da experiência fora do corpo.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "O que Waldo Vieira define como projeção consciente?",
+        "options": [
+            "Uma técnica de relaxamento profundo.",
+            "A saída lúcida da consciência do corpo físico.",
+            "Uma forma de sonho lúcido."
+        ],
+        "answer": "A saída lúcida da consciência do corpo físico.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "Como a Projeciologia vê as experiências fora do corpo?",
+        "options": [
+            "Como meras ilusões da mente.",
+            "Como experiências científicas de autoconhecimento e pesquisa.",
+            "Como sonhos que não possuem valor prático."
+        ],
+        "answer": "Como experiências científicas de autoconhecimento e pesquisa.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "Qual técnica é frequentemente mencionada em Projeciologia para induzir uma experiência fora do corpo?",
+        "options": [
+            "Técnica do relaxamento profundo.",
+            "Técnica do estado vibracional.",
+            "Técnica da meditação transcendental."
+        ],
+        "answer": "Técnica do estado vibracional.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "O que a Projeciologia sugere sobre a evolução da consciência?",
+        "options": [
+            "Que a evolução da consciência depende exclusivamente da genética.",
+            "Que a evolução da consciência pode ser acelerada através de experiências fora do corpo.",
+            "Que a evolução da consciência é uma ilusão."
+        ],
+        "answer": "Que a evolução da consciência pode ser acelerada através de experiências fora do corpo.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "Como a Projeciologia classifica as experiências fora do corpo involuntárias?",
+        "options": [
+            "Como experiências negativas e perigosas.",
+            "Como oportunidades valiosas de aprendizado e autoconhecimento.",
+            "Como eventos insignificantes."
+        ],
+        "answer": "Como oportunidades valiosas de aprendizado e autoconhecimento.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "De acordo com a Projeciologia, qual é o benefício de dominar a projeção consciente?",
+        "options": [
+            "Aprimoramento das habilidades de meditação.",
+            "Maior controle sobre as experiências de vida após a morte.",
+            "Facilidade para induzir sonhos lúcidos."
+        ],
+        "answer": "Maior controle sobre as experiências de vida após a morte.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "O que é o estado vibracional na Projeciologia?",
+        "options": [
+            "Um estado mental de tranquilidade.",
+            "Um fenômeno energético que precede a projeção consciente.",
+            "Uma técnica de respiração profunda."
+        ],
+        "answer": "Um fenômeno energético que precede a projeção consciente.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "Qual é a relação entre a Projeciologia e a Conscienciologia?",
+        "options": [
+            "A Projeciologia é um subcampo da Conscienciologia focado em experiências fora do corpo.",
+            "Não há relação entre as duas disciplinas.",
+            "A Projeciologia é a base da Conscienciologia."
+        ],
+        "answer": "A Projeciologia é um subcampo da Conscienciologia focado em experiências fora do corpo.",
+        "source": "Vieira, Waldo. *Projeciologia*. 2ª edição, 1986."
+    },
+    {
+        "question": "Qual é o foco principal do livro *700 Experimentos da Conscienciologia*?",
+        "options": [
+            "Apresentar uma ampla gama de experimentos e técnicas para o estudo da consciência.",
+            "Discutir a história da Projeciologia.",
+            "Explorar o impacto das energias no ambiente."
+        ],
+        "answer": "Apresentar uma ampla gama de experimentos e técnicas para o estudo da consciência.",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "Qual a quantidade de experimentos descritos no livro *700 Experimentos da Conscienciologia*?",
+        "options": [
+            "700",
+            "500",
+            "1000"
+        ],
+        "answer": "700",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "Qual é um dos principais objetivos dos experimentos descritos no livro?",
+        "options": [
+            "Explorar e praticar técnicas relacionadas à consciência e suas manifestações.",
+            "Desenvolver novas tecnologias para meditação.",
+            "Analisar a influência de crenças religiosas na saúde mental."
+        ],
+        "answer": "Explorar e praticar técnicas relacionadas à consciência e suas manifestações.",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "Qual é a abordagem do livro em relação aos fenômenos da consciência?",
+        "options": [
+            "Metodológica e experimental.",
+            "Teórica e especulativa.",
+            "Histórica e cultural."
+        ],
+        "answer": "Metodológica e experimental.",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "O livro *700 Experimentos da Conscienciologia* é uma publicação de qual ano?",
+        "options": [
+            "2013",
+            "2008",
+            "2010"
+        ],
+        "answer": "2013",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "Qual é um dos tópicos abordados nos experimentos do livro?",
+        "options": [
+            "Projeções da consciência.",
+            "Culturas antigas e suas práticas espirituais.",
+            "Técnicas de gerenciamento de estresse."
+        ],
+        "answer": "Projeções da consciência.",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "O que o autor espera alcançar com os experimentos descritos no livro?",
+        "options": [
+            "Avançar o conhecimento sobre a consciência e suas capacidades.",
+            "Promover técnicas de relaxamento para o público em geral.",
+            "Estabelecer uma nova religião."
+        ],
+        "answer": "Avançar o conhecimento sobre a consciência e suas capacidades.",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "O livro *700 Experimentos da Conscienciologia* faz parte de qual área de estudo?",
+        "options": [
+            "Conscienciologia",
+            "História da espiritualidade",
+            "Meditação e bem-estar"
+        ],
+        "answer": "Conscienciologia",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "Qual é o formato de apresentação dos experimentos no livro?",
+        "options": [
+            "Descritivo e prático.",
+            "Teórico e narrativo.",
+            "Histórico e analítico."
+        ],
+        "answer": "Descritivo e prático.",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    },
+    {
+        "question": "Qual é uma característica distintiva dos experimentos apresentados no livro?",
+        "options": [
+            "Eles são baseados em práticas e técnicas testadas na Conscienciologia.",
+            "Eles se concentram exclusivamente em estudos de caso históricos.",
+            "Eles abordam somente teorias abstratas sobre a consciência."
+        ],
+        "answer": "Eles são baseados em práticas e técnicas testadas na Conscienciologia.",
+        "source": "Vieira, Waldo. *700 Experimentos da Conscienciologia*. 2013."
+    }
+];
+
+
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let cosmoeticaScore = 0;
+        let totalPontos = 0;
+    
+
+        // Função para embaralhar o array de perguntas
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+    
+        // Embaralhe as perguntas ao iniciar
+        shuffle(questions);
+    
+        function loadQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const nextButton = document.getElementById('next-button');
+            const sourceElement = document.getElementById('source');
+            const scoreElement = document.getElementById('score');
+    
+            // Atualiza a pontuação na interface
+            scoreElement.textContent = "Pontuação: " + quizScore;
+    
+            if (currentQuestionIndex < questions.length) {
+                const currentQuestion = questions[currentQuestionIndex];
+                questionElement.textContent = currentQuestion.question;
+                optionsElement.innerHTML = '';
+    
+                currentQuestion.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.onclick = () => selectOption(option);
+                    optionsElement.appendChild(button);
+                });
+    
+                sourceElement.textContent = "Fonte: " + currentQuestion.source;
+                nextButton.style.display = 'none';
+            } else {
+                questionElement.textContent = "Quiz terminado!";
+                optionsElement.innerHTML = '';
+                sourceElement.textContent = '';
+                nextButton.style.display = 'none';
+                scoreElement.textContent = "Sua pontuação final: " + quizScore + " pontos";
+                updateTotalScore(); // Atualiza a pontuação total ao final do quiz
+            }
+            updateTotalScore(); // Atualiza a pontuação total ao final do quiz
+        }
+    
+        function selectOption(selectedOption) {
+            const currentQuestion = questions[currentQuestionIndex];
+            const nextButton = document.getElementById('next-button');
+    
+            if (selectedOption === currentQuestion.answer) {
+                alert("Correto!");
+                quizScore++; // Incrementa a pontuação do quiz
+            } else {
+                alert("Incorreto! A resposta certa é: " + currentQuestion.answer);
+            }
+    
+            nextButton.style.display = 'block'; // Mostra o botão para avançar
+            updateTotalScore(); // Atualiza a pontuação total
+        }
+    
+        document.getElementById('next-button').onclick = () => {
+            currentQuestionIndex++; // Avança para a próxima pergunta
+            loadQuestion();
+        };
+    
+        function checkHolossoma() {
+            const soma = document.getElementById('soma').checked;
+            const psicosoma = document.getElementById('psicosoma').checked;
+            const mentalsoma = document.getElementById('mentalsoma').checked;
+            const energossoma = document.getElementById('energossoma-final').checked;
+    
+            if (soma && psicosoma && mentalsoma && energossoma) {
+                quizScore++; // Incrementa a pontuação quando todas as opções estão selecionadas
+                alert("Holossoma completo!");
+            }
+    
+            updateTotalScore(); // Atualiza a pontuação total
+        }
+    
+        function checkEnergosoma() {
+            const finalCheckbox = document.getElementById('energossoma-final'); //novo
+            const checks = [
+                document.getElementById('coronochacra').checked,
+                document.getElementById('frontochacra').checked,
+                document.getElementById('laringochacra').checked,
+                document.getElementById('cardiochacra').checked,
+                document.getElementById('esplenicochacra').checked,
+                document.getElementById('umbilicochacra').checked,
+                document.getElementById('sexochacra').checked
+            ];
+    
+            if (checks.every(check => check)) {
+                // quizScore++; // Incrementa a pontuação quando todas as opções estão selecionadas
+                // Ativa ou desativa o checkbox final //novo
+                finalCheckbox.checked = true; //novo
+                alert("Energossoma completo!");
+            }
+            else
+            {
+                finalCheckbox.checked = false; //novo
+            }
+    
+            updateTotalScore(); // Atualiza a pontuação total
+        }
+    
+        function checkProexis() {
+            const proexis1 = document.getElementById('proexis1').checked;
+            const proexis2 = document.getElementById('proexis2').checked;
+            const proexis3 = document.getElementById('proexis3').checked;
+            const complexisText = document.getElementById('complexis-text');
+    
+            if (proexis1 && proexis2 && proexis3) {
+                // quizScore++; // Incrementa a pontuação quando todas as opções estão selecionadas
+                complexisText.style.display = 'block'; // Mostra o texto "Compléxis"
+                alert("Proéxis completo!");
+            } else {
+                complexisText.style.display = 'none'; // Oculta o texto "Compléxis" caso as opções não estejam todas selecionadas
+            }
+    
+            updateTotalScore(); // Atualiza a pontuação total
+        }
+    
+        
+        function checkCosmoetica() {
+            const positiveChecks = [
+                document.getElementById('positive1').checked,
+                document.getElementById('positive2').checked,
+                document.getElementById('positive3').checked,
+                document.getElementById('positive4').checked,
+                document.getElementById('positive5').checked
+            ];
+    
+            const negativeChecks = [
+                document.getElementById('negative1').checked,
+                document.getElementById('negative2').checked,
+                document.getElementById('negative3').checked,
+                document.getElementById('negative4').checked,
+                document.getElementById('negative5').checked
+            ];
+    
+            let score = 0;
+            positiveChecks.forEach(check => {
+                if (check) score++;
+            });
+    
+            negativeChecks.forEach(check => {
+                if (check) score--;
+            });
+    
+            document.getElementById('cosmoetica-score').textContent = "Pontuação: " + score;
+            cosmoeticaScore = score;
+            updateTotalScore(); // Atualiza a pontuação total
+        }
+    
+        function updateTotalScore() {
+            const totalScoreElement = document.getElementById('total-score');
+            const scoreElement = document.getElementById('score');
+            const ciResultElement = document.getElementById('ci-result');
+            totalPontos = quizScore + cosmoeticaScore;
+            totalScoreElement.textContent = "Saldo da FEP: " + totalPontos;
+            scoreElement.textContent = "Pontuação: " + quizScore;
+
+            // atualiza tipo de curso intermissivo
+            if (totalPontos < 0) {
+                ciResultElement.textContent = "Checkpont do CI: Pré-ressoma";
+            } else if (totalPontos <= 2 && totalPontos >= 0) {
+                ciResultElement.textContent = "Checkpont do CI: Básico";
+            } else {
+                ciResultElement.textContent = "Checkpont do CI: Avançado";
+            }
+
+
+            // bussola
+            document.getElementById('generateButton').addEventListener('click', function() {
+                var randomNumber = Math.floor(Math.random() * 8) + 1; // Gera um número entre 1 e 8
+
+                var angle = (randomNumber - 2) * 45; // Multiplica por 45 para ajustar a rotação da bússola
+                document.querySelector('.needle').style.transform = 'rotate(' + angle + 'deg)';
+
+                var message = ' ' + randomNumber;
+
+                // Aplica as cores e mensagens conforme o número sorteado
+                if (randomNumber === 2 || randomNumber === 6) {
+                    document.getElementById('randomNumber').style.color = 'pink';
+                    message += ' - Minimoréxis.';
+                } else if (randomNumber === 1 || randomNumber === 3 || randomNumber === 5 || randomNumber === 7) {
+                    document.getElementById('randomNumber').style.color = 'blue';
+                    message += ' - Ponto extra de proéxis.';
+                } else if (randomNumber === 4 || randomNumber === 8) {
+                    document.getElementById('randomNumber').style.color = 'green';
+                    message += ' - Sair ou tirar da baratrosfera.';
+                }
+
+                document.getElementById('randomNumber').textContent = message;
+            });
+
+
+
+        }
+
+
+        loadQuestion(); // Carrega a primeira pergunta ao iniciar o quiz
+    </script>
+</body>
+</html>
