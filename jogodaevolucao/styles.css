@@ -4,6 +4,18 @@ body {
     text-align: center;
 }
 
+#player-name {
+    margin-bottom: 20px; /* Espaço abaixo da caixa de texto */
+    padding: 8px; /* Preenchimento interno */
+    width: 100%; /* Largura total */
+    box-sizing: border-box; /* Inclui o padding na largura total */
+}
+
+label {
+    display: block; /* O rótulo ocupa toda a linha */
+    margin-bottom: 5px; /* Espaço entre o rótulo e a caixa de texto */
+}
+
 #quiz-container {
     margin: 50px auto;
     padding: 20px;
