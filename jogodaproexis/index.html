@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabuleiro de Proexologia</title>
+    <style>
+        #tabuleiro {
+            display: grid;
+            grid-template-columns: repeat(11, 60px); /* 11 colunas */
+            grid-template-rows: repeat(11, 60px); /* 11 linhas */
+            gap: 5px;
+            width: 695px;
+            height: 695px;
+            position: relative;
+            margin: 0 auto;
+        }
+        .quadrado {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 10px;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="tabuleiro"></div>
+
+<script>
+    const perguntas = [
+        "O que é Proexis?", "Como identificar sua Proexis?", "Quais são os sinais de uma Proexis bem-sucedida?",
+        "Como a cosmoética se relaciona com a Proexis?", "Qual a importância do intermissivista na Proexis?",
+        "O que é descoincidência vígil?", "Como os amparadores auxiliam na Proexis?", "Quais são os desafios mais comuns na execução da Proexis?",
+        "Como a retrocognição pode ajudar na Proexis?", "Qual a relação entre Proexis e megatrafor?", "O que é a cláusula pétrea da Proexis?",
+        "Como o holossoma influencia na Proexis?", "Qual a importância do curso intermissivo?", "Como a Proexis pode evoluir com o tempo?",
+        "O que são as linhas de força da Proexis?", "Como identificar as prioridades da Proexis?", "Qual o papel do maxiplanejamento na Proexis?",
+        "Como a autopesquisa pode fortalecer a Proexis?", "Qual a importância da assistência na Proexis?", "O que é a Tenepes e como ela se relaciona com a Proexis?",
+        "Como a Proexis pode impactar outras vidas?", "O que é o senso de universalismo na Proexis?", "Como o tempo é gerido na Proexis?",
+        "Quais técnicas podem auxiliar na execução da Proexis?", "Qual a importância de manter o foco na Proexis?", "Como lidar com os desvios da Proexis?",
+        "Como a autoorganização contribui para a Proexis?", "O que são sincronicidades na Proexis?", "Como a vivência interdimensional pode influenciar a Proexis?",
+        "Qual a relação entre Proexis e neofilia?", "Como o grupo evolutivo afeta a Proexis?", "O que é policarmalidade na Proexis?",
+        "Como a reconciliação pode ser parte da Proexis?", "O que é completismo existencial?", "Como os trafores e trafares afetam a Proexis?",
+        "Qual a importância do autoconhecimento na Proexis?", "Como a Proexis pode se manifestar na vida cotidiana?", "O que é a autovivência da Proexis?",
+        "Como a Proexis se relaciona com a multidimensionalidade?", "Qual a importância do voluntariado na Proexis?", "Como a Proexis pode ser ajustada ao longo da vida?",
+        "O que é autossuperação e como ela se aplica à Proexis?", "Como os sonhos podem indicar aspectos da Proexis?", "Qual o papel da energia imanente na Proexis?",
+        "O que é a cláusula final da Proexis?", "Como o discernimento afeta a Proexis?", "Como a Proexis pode ser priorizada no dia a dia?",
+        "O que são crises de crescimento na Proexis?", "Como a Proexis pode influenciar o entorno?", "Qual a importância da autocrítica na Proexis?",
+        "Como a Proexis pode se refletir na saúde física?", "O que é planejamento proexológico?", "Como os amparadores extrafísicos podem influenciar a Proexis?",
+        "Como as projeções conscientes podem ajudar na Proexis?", "Qual a relação entre Proexis e interassistencialidade?", "Como as vivências anteriores influenciam a Proexis?",
+        "O que é a reurbanização extrafísica?", "Como as metas evolutivas se alinham com a Proexis?", "Como os registros extrafísicos podem ajudar na Proexis?"
+    ];
+
+    function gerarCorAleatoria() {
+        const letras = '0123456789ABCDEF';
+        let cor = '#';
+        for (let i = 0; i < 6; i++) {
+            cor += letras[Math.floor(Math.random() * 16)];
+        }
+        return cor;
+    }
+
+    const tabuleiro = document.getElementById('tabuleiro');
+    let posicoes = [];
+
+    // Definindo as posições ao redor do tabuleiro
+    for (let i = 0; i < 11; i++) {
+        posicoes.push({ x: i, y: 0 }); // linha superior
+    }
+    for (let i = 1; i < 11; i++) {
+        posicoes.push({ x: 10, y: i }); // coluna direita
+    }
+    for (let i = 9; i >= 0; i--) {
+        posicoes.push({ x: i, y: 10 }); // linha inferior
+    }
+    for (let i = 9; i > 0; i--) {
+        posicoes.push({ x: 0, y: i }); // coluna esquerda
+    }
+
+    // Criando os quadrados
+    for (let i = 0; i < 60; i++) {
+        const quadrado = document.createElement('div');
+        quadrado.className = 'quadrado';
+        quadrado.style.backgroundColor = gerarCorAleatoria();
+        quadrado.textContent = perguntas[i];
+        quadrado.onclick = () => alert(quadrado.textContent);
+
+        const posicao = posicoes[i];
+        quadrado.style.gridColumnStart = posicao.x + 1;
+        quadrado.style.gridRowStart = posicao.y + 1;
+
+        tabuleiro.appendChild(quadrado);
+    }
+</script>
+
+</body>
+</html>
