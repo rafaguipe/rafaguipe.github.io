@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabuleiro de Proexologia</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+        }
         #tabuleiro {
             display: grid;
             grid-template-columns: repeat(11, 60px); /* 11 colunas */
@@ -13,7 +27,10 @@
             width: 695px;
             height: 695px;
             position: relative;
-            margin: 0 auto;
+            margin: 20px;
+            border: 2px solid #000; /* Adiciona uma borda para visualização */
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
         .quadrado {
             width: 60px;
@@ -28,36 +45,84 @@
             padding: 5px;
             cursor: pointer;
         }
+        #start {
+            position: absolute;
+            top: 50%;
+            left: -80px; /* Ajusta a posição à esquerda */
+            width: 80px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-50%); /* Centraliza verticalmente em relação ao tabuleiro */
+        }
+        #start div {
+            font-size: 14px;
+            color: #000;
+        }
+        #start .seta {
+            font-size: 24px;
+        }
+        #titulo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+        }
+        #instrucoes {
+            width: 250px;
+            margin-left: 20px;
+            padding: 10px;
+            border: 1px solid #000;
+            background-color: #fff;
+            font-size: 14px;
+        }
+        #btnDado {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            margin: 20px auto 0; /* Centraliza o botão horizontalmente e dá espaço acima e abaixo */
+        }
+        #btnDado:focus {
+            outline: none;
+        }
     </style>
 </head>
 <body>
 
-<div id="tabuleiro"></div>
+<div class="container">
+    <div id="tabuleiro">
+        <div id="start">
+            <div>Inicia Aqui</div>
+            <div class="seta">⬇️</div>
+        </div>
+        <div id="titulo">Jogo da Proéxis</div>
+        <button id="btnDado">Rolar Dado</button>
+    </div>
+    <div id="instrucoes">
+        <h2>Instruções do Jogo</h2>
+        <p>Inicia o jogo quem tirar o maior número nos dados.</p>
+        <p>O primeiro jogador rola o dado e cai na casa correspondente.</p>
+        <p>Procura responder a pergunta. Se acertar (autavaliação), ganha 1 ponto.</p>
+        <p>O próximo jogador faz o mesmo.</p>
+        <p>O jogo termina quando todos passarem pelo ponto inicial.</p>
+        <p>Quem fizer mais pontos ganha a partida.</p>
+    </div>
+</div>
 
 <script>
-    const perguntas = [
-        "O que é Proexis?", "Como identificar sua Proexis?", "Quais são os sinais de uma Proexis bem-sucedida?",
-        "Como a cosmoética se relaciona com a Proexis?", "Qual a importância do intermissivista na Proexis?",
-        "O que é descoincidência vígil?", "Como os amparadores auxiliam na Proexis?", "Quais são os desafios mais comuns na execução da Proexis?",
-        "Como a retrocognição pode ajudar na Proexis?", "Qual a relação entre Proexis e megatrafor?", "O que é a cláusula pétrea da Proexis?",
-        "Como o holossoma influencia na Proexis?", "Qual a importância do curso intermissivo?", "Como a Proexis pode evoluir com o tempo?",
-        "O que são as linhas de força da Proexis?", "Como identificar as prioridades da Proexis?", "Qual o papel do maxiplanejamento na Proexis?",
-        "Como a autopesquisa pode fortalecer a Proexis?", "Qual a importância da assistência na Proexis?", "O que é a Tenepes e como ela se relaciona com a Proexis?",
-        "Como a Proexis pode impactar outras vidas?", "O que é o senso de universalismo na Proexis?", "Como o tempo é gerido na Proexis?",
-        "Quais técnicas podem auxiliar na execução da Proexis?", "Qual a importância de manter o foco na Proexis?", "Como lidar com os desvios da Proexis?",
-        "Como a autoorganização contribui para a Proexis?", "O que são sincronicidades na Proexis?", "Como a vivência interdimensional pode influenciar a Proexis?",
-        "Qual a relação entre Proexis e neofilia?", "Como o grupo evolutivo afeta a Proexis?", "O que é policarmalidade na Proexis?",
-        "Como a reconciliação pode ser parte da Proexis?", "O que é completismo existencial?", "Como os trafores e trafares afetam a Proexis?",
-        "Qual a importância do autoconhecimento na Proexis?", "Como a Proexis pode se manifestar na vida cotidiana?", "O que é a autovivência da Proexis?",
-        "Como a Proexis se relaciona com a multidimensionalidade?", "Qual a importância do voluntariado na Proexis?", "Como a Proexis pode ser ajustada ao longo da vida?",
-        "O que é autossuperação e como ela se aplica à Proexis?", "Como os sonhos podem indicar aspectos da Proexis?", "Qual o papel da energia imanente na Proexis?",
-        "O que é a cláusula final da Proexis?", "Como o discernimento afeta a Proexis?", "Como a Proexis pode ser priorizada no dia a dia?",
-        "O que são crises de crescimento na Proexis?", "Como a Proexis pode influenciar o entorno?", "Qual a importância da autocrítica na Proexis?",
-        "Como a Proexis pode se refletir na saúde física?", "O que é planejamento proexológico?", "Como os amparadores extrafísicos podem influenciar a Proexis?",
-        "Como as projeções conscientes podem ajudar na Proexis?", "Qual a relação entre Proexis e interassistencialidade?", "Como as vivências anteriores influenciam a Proexis?",
-        "O que é a reurbanização extrafísica?", "Como as metas evolutivas se alinham com a Proexis?", "Como os registros extrafísicos podem ajudar na Proexis?"
-    ];
-
     function gerarCorAleatoria() {
         const letras = '0123456789ABCDEF';
         let cor = '#';
@@ -67,37 +132,53 @@
         return cor;
     }
 
-    const tabuleiro = document.getElementById('tabuleiro');
-    let posicoes = [];
-
-    // Definindo as posições ao redor do tabuleiro
-    for (let i = 0; i < 11; i++) {
-        posicoes.push({ x: i, y: 0 }); // linha superior
-    }
-    for (let i = 1; i < 11; i++) {
-        posicoes.push({ x: 10, y: i }); // coluna direita
-    }
-    for (let i = 9; i >= 0; i--) {
-        posicoes.push({ x: i, y: 10 }); // linha inferior
-    }
-    for (let i = 9; i > 0; i--) {
-        posicoes.push({ x: 0, y: i }); // coluna esquerda
+    function rolarDado() {
+        const numeroAleatorio = Math.floor(Math.random() * 6) + 1;
+        document.getElementById('btnDado').textContent = numeroAleatorio;
     }
 
-    // Criando os quadrados
-    for (let i = 0; i < 60; i++) {
-        const quadrado = document.createElement('div');
-        quadrado.className = 'quadrado';
-        quadrado.style.backgroundColor = gerarCorAleatoria();
-        quadrado.textContent = perguntas[i];
-        quadrado.onclick = () => alert(quadrado.textContent);
+    fetch('perguntas.json')
+        .then(response => response.json())
+        .then(data => {
+            const perguntas = data.perguntas;
+            const tabuleiro = document.getElementById('tabuleiro');
+            let posicoes = [];
 
-        const posicao = posicoes[i];
-        quadrado.style.gridColumnStart = posicao.x + 1;
-        quadrado.style.gridRowStart = posicao.y + 1;
+            // Definindo as posições ao redor do tabuleiro
+            for (let i = 0; i < 11; i++) {
+                posicoes.push({ x: i, y: 0 }); // linha superior
+            }
+            for (let i = 1; i < 11; i++) {
+                posicoes.push({ x: 10, y: i }); // coluna direita
+            }
+            for (let i = 9; i >= 0; i--) {
+                posicoes.push({ x: i, y: 10 }); // linha inferior
+            }
+            for (let i = 9; i > 0; i--) {
+                posicoes.push({ x: 0, y: i }); // coluna esquerda
+            }
 
-        tabuleiro.appendChild(quadrado);
-    }
+            // Embaralhar as perguntas e selecionar 60 aleatórias
+            const perguntasAleatorias = perguntas.sort(() => Math.random() - 0.5).slice(0, 60);
+
+            // Criando os quadrados
+            for (let i = 0; i < 60; i++) {
+                const quadrado = document.createElement('div');
+                quadrado.className = 'quadrado';
+                quadrado.style.backgroundColor = gerarCorAleatoria();
+                quadrado.textContent = perguntasAleatorias[i];
+                quadrado.onclick = () => alert(quadrado.textContent);
+
+                const posicao = posicoes[i];
+                quadrado.style.gridColumnStart = posicao.x + 1;
+                quadrado.style.gridRowStart = posicao.y + 1;
+
+                tabuleiro.appendChild(quadrado);
+            }
+        })
+        .catch(error => console.error('Erro ao carregar as perguntas:', error));
+
+    document.getElementById('btnDado').addEventListener('click', rolarDado);
 </script>
 
 </body>
