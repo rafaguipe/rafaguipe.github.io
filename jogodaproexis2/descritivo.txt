@@ -1,0 +1,36 @@
+nome: Jogo da proéxis - cartas
+autor: Rafael Guimarães Pereira
+data de publicação: 25/8/24
+tecnologia: html, javascript, json, css
+proposito: fazer o máximo de pontos em 10 minutos
+dimensao das cartas: 5cm de largura e 5cm de altura
+
+Montar o jogo de forma a ficar bem para celular, em uma só coluna
+
+0) Cabeçalho
+Acima no cabeçalho vai o nome do jogo e um botão "iniciar". 
+Uma vez pressionado o botão um cronômetro regressivo de 10 minutos é iniciado e o botão fica inativo. O botão de próxima pergunta só aparece quando o botão iniciar for acionado. Uma vez que o botão proxima pergunta é acionado ele fica inativo e só volta a ficar ativo uma vez que ou o botao de acertos ou o de erros é acionado.
+
+1) Cartas
+As cartas tem frente e verso.
+1.1 Frente da carta, fundo bege, número da pergunta na primeira linha. Pergunta à partir da segunda linha em itálico. A pergunta é sorteada aleatoriamente de uma lista de perguntas sobre proexologia. Esta lista está no arquivo perguntas.json
+1.2 Verso da carta, fundo azul, deverá estar escrito no nome do jogo, centralizado, letras em branco, tamanho 24, fonte arial.
+1.3 A frente e o verso estão na mesma coluna, um abaixo do outro
+
+2) Botões
+2.1 Próxima pergunta. Abaixo do deck. 
+Quando pressionado: 
+	a) carrega aleatoriamente a próxima pergunta da lista. Não deve repetir uma pergunta que já foi sorteada durante o jogo.
+	b) libera os botões de acerto e erro
+	c) inativa a si mesmo
+2.2 Tem mais dois botões: acerto e erro. O de acerto uma vez pressionado acumula os acertos e o outro os erros.
+Há um texto abaixo de cada botão mostrando o valor acumulado. Quando qualquer um deles é pressionado, inativa estes dois botões e libera o botão de próxima pergunta.
+
+3) Abaixo vão as instruções do jogo. 
+Ao final do texto adiconar a referência ao autor do jogo e data de publicação.
+
+4) Abaixo de tudo vai um icone do creative commons 4.0 usando esse codigo:
+
+<p xmlns:cc="http://creativecommons.org/ns#" >This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
+
+Gostaria de todo o codigo dentro de unico html exceto a lista contendo 100 perguntas que fica em um arquivo .json separado (não precisa criar o arquivo json que já tenho). 

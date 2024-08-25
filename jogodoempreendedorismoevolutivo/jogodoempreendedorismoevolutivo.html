@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Proéxis - Cartas</title>
+    <title>Jogo do Empreendedorismo Evolutivo - Cartas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,15 +15,18 @@
         }
         h1 {
             text-align: center;
-            margin: 10px;
         }
         .container {
+            display: flex;
+            justify-content: space-between;
             width: 100%;
-            max-width: 500px;
+            max-width: 800px;
+        }
+        .column {
+            width: 32%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 10px;
         }
         .card {
             width: 5cm;
@@ -34,13 +37,11 @@
             text-align: center;
             margin-bottom: 10px;
             font-size: 18px;
-            margin-bottom: 20px;
         }
         .card-back {
             background-color: blue;
             color: white;
             font-size: 24px;
-            font-family: Arial, sans-serif;
         }
         .card-front {
             background-color: #f5f5dc; /* creme */
@@ -66,41 +67,39 @@
             margin-top: 20px;
             text-align: center;
         }
-        .instructions {
-            margin-top: 20px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
 
-    <h1>Jogo da Proéxis - Cartas</h1>
-    <button id="startButton" onclick="startGame()">Iniciar</button>
+    <h1>Jogo do Empreendedorismo Evolutivo - Cartas</h1>
     <div id="timer">10:00</div>
+    <button id="startButton" onclick="startGame()">Iniciar</button>
 
     <div class="container">
-        <!-- Deck de cartas -->
-        <div id="cardDeck" class="card card-back">
-            Jogo da Proéxis - Cartas
-        </div>
-
-        <!-- Frente da carta -->
-        <div id="questionCard" class="card card-front">
-            <div id="questionNumber">Pergunta 1</div>
-            <div id="questionText">Aguardando pergunta...</div>
-        </div>
-
-        <!-- Botões -->
-        <div class="buttons">
+        <!-- Coluna 1: Deck de cartas -->
+        <div class="column">
+            <div id="cardDeck" class="card card-back">
+                Jogo do Empreendedorismo Evolutivo
+            </div>
             <button id="nextQuestionButton" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
-            <button onclick="incrementCorrect()">Acertos</button>
-            <div id="correctScore">0</div>
-            <button onclick="incrementWrong()">Erros</button>
-            <div id="wrongScore">0</div>
+            <div class="buttons">
+                <button onclick="incrementCorrect()">Acertos</button>
+                <div id="correctScore">0</div>
+                <button onclick="incrementWrong()">Erros</button>
+                <div id="wrongScore">0</div>
+            </div>
         </div>
 
-        <!-- Instruções -->
-        <div class="instructions">
+        <!-- Coluna 2: Frente da carta com a pergunta -->
+        <div class="column">
+            <div id="questionCard" class="card card-front">
+                <div id="questionNumber">Pergunta 1</div>
+                <div id="questionText">Aguardando pergunta...</div>
+            </div>
+        </div>
+
+        <!-- Coluna 3: Instruções -->
+        <div class="column">
             <h3>Instruções</h3>
             <p>1. Clique em "Iniciar" para começar o jogo.</p>
             <p>2. Um cronômetro regressivo de 10 minutos será iniciado.</p>
@@ -108,12 +107,12 @@
             <p>4. Marque suas respostas como "Acertos" ou "Erros".</p>
             <p>5. Faça o máximo de pontos em 10 minutos!</p>
             <p><strong>Autor:</strong> Rafael Guimarães Pereira</p>
-            <p><strong>Data de publicação:</strong> 25/8/24</p>
+            <p><strong>Data:</strong> 25/8/24</p>
         </div>
     </div>
 
     <div class="footer">
-        <p xmlns:cc="http://creativecommons.org/ns#">This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
+        <p xmlns:cc="http://creativecommons.org/ns#" >This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
     </div>
 
     <script>
@@ -199,6 +198,7 @@
                 questions = data.perguntas;
             })
             .catch(error => console.error('Erro ao carregar perguntas:', error));
+
     </script>
 </body>
 </html>
