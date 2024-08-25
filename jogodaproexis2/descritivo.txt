@@ -9,7 +9,7 @@ Montar o jogo de forma a ficar bem para celular, em uma só coluna
 
 0) Cabeçalho
 Acima no cabeçalho vai o nome do jogo e um botão "iniciar". 
-Uma vez pressionado o botão um cronômetro regressivo de 10 minutos é iniciado e o botão fica inativo. O botão de próxima pergunta só aparece quando o botão iniciar for acionado. Uma vez que o botão proxima pergunta é acionado ele fica inativo e só volta a ficar ativo uma vez que ou o botao de acertos ou o de erros é acionado.
+
 
 1) Cartas
 As cartas tem frente e verso.
@@ -18,15 +18,44 @@ As cartas tem frente e verso.
 1.3 A frente e o verso estão na mesma coluna, um abaixo do outro
 
 2) Botões
-2.1 Próxima pergunta. Abaixo do deck. 
+2.0 Botão 'Iniciar'
+Quando pressionado:
+	a) um cronômetro regressivo de 10 minutos é iniciado
+	b) disable o botão 'iniciar'
+	c) enable botão 'Próxima pergunta'
+	
+2.1 Botão 'Próxima pergunta'. 
+Inicia o jogo inativo.
+Abaixo do deck de cartas. 
 Quando pressionado: 
-	a) carrega aleatoriamente a próxima pergunta da lista. Não deve repetir uma pergunta que já foi sorteada durante o jogo.
-	b) libera os botões de acerto e erro
-	c) inativa a si mesmo
-2.2 Tem mais dois botões: acerto e erro. O de acerto uma vez pressionado acumula os acertos e o outro os erros.
-Há um texto abaixo de cada botão mostrando o valor acumulado. Quando qualquer um deles é pressionado, inativa estes dois botões e libera o botão de próxima pergunta.
+	a) carrega aleatoriamente a próxima pergunta da lista. Não deve repetir uma pergunta que já foi sorteada durante o jogo
+	b) enable botão 'acertos'
+	c) enable botão 'erros'
+	d) disable o botão 'próxima pergunta'
+
+2.2 Botão de acerto. 
+Inicia o jogo inativo.
+Abaixo do botão 'Próxima pergunta'. 
+Quando pressionado:
+	a) acumula acertos
+	b) disable botão 'acertos'
+	c) disable botao 'erros'
+	d) enable botão 'Próxima pergunta'
+Há um texto ao lado direito mostrando o valor acumulado.
+
+2.3 Botão de erros. 
+Inicia o jogo inativo.
+Abaixo do botão 'Próxima pergunta'. 
+Quando pressionado:
+	a) acumula erros
+	b) disable botão 'acertos'
+	c) disable botao 'erros'
+	d) enable botão 'Próxima pergunta'
+Há um texto ao lado direito mostrando o valor acumulado.
 
 3) Abaixo vão as instruções do jogo. 
+O texto vai dentro de um bloco com cor de fundo bege.
+Texto justificado à esquerda.
 Ao final do texto adiconar a referência ao autor do jogo e data de publicação.
 
 4) Abaixo de tudo vai um icone do creative commons 4.0 usando esse codigo:

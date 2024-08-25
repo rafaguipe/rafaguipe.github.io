@@ -12,10 +12,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background-color: #f0f0f0;
         }
         h1 {
-            text-align: center;
             margin: 10px;
+            text-align: center;
         }
         .container {
             width: 100%;
@@ -43,8 +44,9 @@
             font-family: Arial, sans-serif;
         }
         .card-front {
-            background-color: #f5f5dc; /* creme */
+            background-color: #f5f5dc; /* bege */
             font-style: italic;
+            display: none;
         }
         .buttons {
             display: flex;
@@ -67,13 +69,25 @@
             text-align: center;
         }
         .instructions {
+            background-color: #f5f5dc; /* bege */
+            padding: 10px;
             margin-top: 20px;
-            text-align: center;
+            text-align: left;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+        .score {
+            display: flex;
+            align-items: center;
+            margin: 5px;
+        }
+        .score div {
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-
     <h1>Jogo da Proéxis - Cartas</h1>
     <button id="startButton" onclick="startGame()">Iniciar</button>
     <div id="timer">10:00</div>
@@ -93,10 +107,14 @@
         <!-- Botões -->
         <div class="buttons">
             <button id="nextQuestionButton" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
-            <button onclick="incrementCorrect()">Acertos</button>
-            <div id="correctScore">0</div>
-            <button onclick="incrementWrong()">Erros</button>
-            <div id="wrongScore">0</div>
+            <div class="score">
+                <button id="correctButton" onclick="incrementCorrect()" disabled>Acertos</button>
+                <div id="correctScore">0</div>
+            </div>
+            <div class="score">
+                <button id="wrongButton" onclick="incrementWrong()" disabled>Erros</button>
+                <div id="wrongScore">0</div>
+            </div>
         </div>
 
         <!-- Instruções -->
@@ -152,20 +170,24 @@
 
         // Função para carregar a próxima pergunta
         function nextQuestion() {
-            if (questions.length === 0) return;
+            if (questions.length === 0 || usedQuestions.size === questions.length) return;
 
             let randomIndex;
             do {
                 randomIndex = Math.floor(Math.random() * questions.length);
-            } while (usedQuestions.has(randomIndex) && usedQuestions.size < questions.length);
+            } while (usedQuestions.has(randomIndex));
 
             usedQuestions.add(randomIndex);
             const question = questions[randomIndex];
 
+            document.getElementById("cardDeck").style.display = "none";
+            document.getElementById("questionCard").style.display = "flex";
             document.getElementById("questionNumber").textContent = `Pergunta ${randomIndex + 1}`;
             document.getElementById("questionText").textContent = question;
 
             document.getElementById("nextQuestionButton").disabled = true;
+            document.getElementById("correctButton").disabled = false;
+            document.getElementById("wrongButton").disabled = false;
         }
 
         // Funções para acumular acertos e erros
@@ -184,12 +206,18 @@
         // Função para permitir a próxima pergunta
         function enableNextQuestion() {
             document.getElementById("nextQuestionButton").disabled = false;
+            document.getElementById("cardDeck").style.display = "block";
+            document.getElementById("questionCard").style.display = "none";
+            document.getElementById("correctButton").disabled = true;
+            document.getElementById("wrongButton").disabled = true;
         }
 
         // Função para encerrar o jogo
         function endGame() {
             document.getElementById("nextQuestionButton").disabled = true;
-            alert("Tempo esgotado! Pontuação final:\nAcertos: " + correctScore + "\nErros: " + wrongScore);
+            document.getElementById("correctButton").disabled = true;
+            document.getElementById("wrongButton").disabled = true;
+            alert(`Tempo esgotado! Pontuação final:\nAcertos: ${correctScore}\nErros: ${wrongScore}`);
         }
 
         // Carregar perguntas do arquivo JSON
@@ -198,7 +226,8 @@
             .then(data => {
                 questions = data.perguntas;
             })
-            .catch(error => console.error('Erro ao carregar perguntas:', error));
+            .catch(error => console.error('Erro ao carregar as perguntas:', error));
     </script>
 </body>
 </html>
+``
