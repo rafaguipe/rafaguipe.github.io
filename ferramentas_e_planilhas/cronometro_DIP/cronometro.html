@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequência de Acoplamentos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .timer-box {
+            margin: 10px;
+        }
+        .input-box {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sequência de Acoplamentos</h1>
+    <h2>Etapa atual: <span id="etapaAtual">Aguardando Início</span> - Iteração: <span id="iteracaoAtual">0</span>/12</h2>
+
+    <div class="timer-box">
+        <p>Cronômetro Total: <span id="cronometroTotal">00:00</span></p>
+        <p>Cronômetro Etapa: <span id="cronometroEtapa">00:00</span></p>
+    </div>
+
+    <div class="input-box">
+        <label for="acoplamentoTempo">Acoplamento (Minutos): </label>
+        <input type="number" id="acoplamentoTempo" value="9" min="1" max="60">
+        <br>
+        <label for="anotacaoTempo">Anotação (Minutos): </label>
+        <input type="number" id="anotacaoTempo" value="1" min="1" max="60">
+    </div>
+
+    <button id="iniciarBtn">Iniciar Sequência</button>
+
+    <script>
+        const etapaAtualSpan = document.getElementById('etapaAtual');
+        const iteracaoAtualSpan = document.getElementById('iteracaoAtual');
+        const cronometroTotalSpan = document.getElementById('cronometroTotal');
+        const cronometroEtapaSpan = document.getElementById('cronometroEtapa');
+
+        const acoplamentoInput = document.getElementById('acoplamentoTempo');
+        const anotacaoInput = document.getElementById('anotacaoTempo');
+
+        const btnIniciar = document.getElementById('iniciarBtn');
+
+        let cronometroTotal = 0;
+        let cronometroEtapa = 0;
+        let iteracaoAtual = 0;
+        let intervaloTotal, intervaloEtapa;
+
+        const speak = (message) => {
+            const speech = new SpeechSynthesisUtterance(message);
+            speech.lang = 'pt-BR';
+            window.speechSynthesis.speak(speech);
+        };
+
+        const formatarTempo = (segundos) => {
+            const minutos = Math.floor(segundos / 60);
+            const segundosRestantes = segundos % 60;
+            return `${minutos.toString().padStart(2, '0')}:${segundosRestantes.toString().padStart(2, '0')}`;
+        };
+
+        const atualizarCronometros = () => {
+            cronometroTotalSpan.textContent = formatarTempo(cronometroTotal);
+            cronometroEtapaSpan.textContent = formatarTempo(cronometroEtapa);
+        };
+
+        const tocarBuzzer = () => {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'sine'; // Tipo de onda
+            oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Frequência do beep (em Hz)
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 1); // Duração do beep de 1000ms
+        };
+
+        const iniciarEtapa = (duracao, etapa, callback) => {
+            cronometroEtapa = duracao * 60;
+            atualizarCronometros();
+            etapaAtualSpan.textContent = `${etapa} - Iteração: ${iteracaoAtual}`;
+
+            // Fala antes de tocar o buzzer
+            speak(`${etapa} ${iteracaoAtual}`);
+            setTimeout(() => {
+                // Tocar buzzer no início da etapa
+                tocarBuzzer();
+            }, 1500); // Pausa de 500ms antes de tocar o buzzer
+
+            intervaloEtapa = setInterval(() => {
+                cronometroEtapa--;
+                cronometroTotal++;
+                atualizarCronometros();
+
+                if (cronometroEtapa === 0) {
+                    clearInterval(intervaloEtapa);
+                    // Tocar buzzer no final da etapa
+                    tocarBuzzer();
+
+                    callback();
+                }
+            }, 1000);
+        };
+
+        const iniciarSequencia = () => {
+            iteracaoAtual = 0;
+            cronometroTotal = 0;
+            atualizarCronometros();
+            iniciarEtapas();
+        };
+
+        const iniciarEtapas = () => {
+            if (iteracaoAtual < 12) {
+                // Atualiza a iteração e fala o acoplamento ANTES de iniciar
+                iteracaoAtual++;
+                iteracaoAtualSpan.textContent = iteracaoAtual;
+
+                iniciarEtapa(Number(acoplamentoInput.value), 'Acoplamento', () => {
+                    iniciarEtapa(Number(anotacaoInput.value), 'Anotação', () => {
+                        iniciarEtapas(); // Repete o ciclo
+                    });
+                });
+            } else {
+                etapaAtualSpan.textContent = 'Sequência Finalizada';
+                speak('Sequência concluída');
+            }
+        };
+
+        btnIniciar.addEventListener('click', () => {
+            btnIniciar.disabled = true; // Desabilitar o botão após iniciar
+            iniciarSequencia();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Proéxis - Cartas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            margin: 10px;
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .card {
+            width: 5cm;
+            height: 5cm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .card-back {
+            background-color: blue;
+            color: white;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            background-image: url('fundo.png');
+            background-size: cover;
+            background-position: center;
+            
+        }
+        .card-front {
+            background-color: #f5f5dc; /* bege */
+            font-style: italic;
+            display: none;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #timer {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .instructions {
+            background-color: #f5f5dc; /* bege */
+            padding: 10px;
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+        .score {
+            display: flex;
+            align-items: center;
+            margin: 5px;
+        }
+        .score div {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jogo da Proéxis - Cartas</h1>
+    <button id="startButton" onclick="startGame()">Iniciar</button>
+    <div id="timer">10:00</div>
+
+    <div class="container">
+        <!-- Deck de cartas -->
+        <div id="cardDeck" class="card card-back">
+            <!--Jogo da Proéxis - Cartas -->
+        </div>
+
+        <!-- Frente da carta -->
+        <div id="questionCard" class="card card-front">
+            <div id="questionNumber">Pergunta 1</div>
+            <div id="questionText">Aguardando pergunta...</div>
+        </div>
+
+        <!-- Botões -->
+        <div class="buttons">
+            <button id="nextQuestionButton" onclick="nextQuestion()" disabled>Próxima Pergunta</button>
+            <div class="score">
+                <button id="correctButton" onclick="incrementCorrect()" disabled>Satisfatório</button>
+                <div id="correctScore">0</div>
+            </div>
+            <div class="score">
+                <button id="wrongButton" onclick="incrementWrong()" disabled>Insatisfatório</button>
+                <div id="wrongScore">0</div>
+            </div>
+        </div>
+
+        <!-- Instruções -->
+        <div class="instructions">
+            <h3>Instruções</h3>
+            <p>1. Clique em "Iniciar" para começar o jogo.</p>
+            <p>2. Um cronômetro regressivo de 10 minutos será iniciado.</p>
+            <p>3. Clique em "Próxima Pergunta" para ver uma pergunta.</p>
+            <p>4. Marque suas respostas como "Acertos" ou "Erros".</p>
+            <p>5. Faça o máximo de pontos em 10 minutos!</p>
+            <!-- <p><strong>Autor:</strong> Rafael Guimarães Pereira</p> -->
+            <p><strong>Data de publicação:</strong> 25/8/24</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p xmlns:cc="http://creativecommons.org/ns#">This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
+    </div>
+
+    <script>
+        let timeRemaining = 600;
+        let timerInterval;
+        let correctScore = 0;
+        let wrongScore = 0;
+        let questions = []; // As perguntas serão carregadas do arquivo JSON
+        let usedQuestions = new Set();
+
+        // Função para iniciar o jogo
+        function startGame() {
+            document.getElementById("startButton").disabled = true;
+            document.getElementById("nextQuestionButton").disabled = false;
+            startTimer();
+        }
+
+        // Função para iniciar o cronômetro regressivo
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        // Função para atualizar a exibição do cronômetro
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById("timer").textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        // Função para carregar a próxima pergunta
+        function nextQuestion() {
+            if (questions.length === 0 || usedQuestions.size === questions.length) return;
+
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * questions.length);
+            } while (usedQuestions.has(randomIndex));
+
+            usedQuestions.add(randomIndex);
+            const question = questions[randomIndex];
+
+            document.getElementById("cardDeck").style.display = "none";
+            document.getElementById("questionCard").style.display = "flex";
+            document.getElementById("questionNumber").textContent = `Pergunta ${randomIndex + 1}`;
+            document.getElementById("questionText").textContent = question;
+
+            document.getElementById("nextQuestionButton").disabled = true;
+            document.getElementById("correctButton").disabled = false;
+            document.getElementById("wrongButton").disabled = false;
+        }
+
+        // Funções para acumular acertos e erros
+        function incrementCorrect() {
+            correctScore++;
+            document.getElementById("correctScore").textContent = correctScore;
+            enableNextQuestion();
+        }
+
+        function incrementWrong() {
+            wrongScore++;
+            document.getElementById("wrongScore").textContent = wrongScore;
+            enableNextQuestion();
+        }
+
+        // Função para permitir a próxima pergunta
+        function enableNextQuestion() {
+            document.getElementById("nextQuestionButton").disabled = false;
+            document.getElementById("cardDeck").style.display = "block";
+            document.getElementById("questionCard").style.display = "none";
+            document.getElementById("correctButton").disabled = true;
+            document.getElementById("wrongButton").disabled = true;
+        }
+
+        // Função para encerrar o jogo
+        function endGame() {
+            document.getElementById("nextQuestionButton").disabled = true;
+            document.getElementById("correctButton").disabled = true;
+            document.getElementById("wrongButton").disabled = true;
+            alert(`Tempo esgotado! Pontuação final:\nAcertos: ${correctScore}\nErros: ${wrongScore}`);
+        }
+
+        // Carregar perguntas do arquivo JSON
+        fetch('perguntas.json')
+            .then(response => response.json())
+            .then(data => {
+                questions = data.perguntas;
+            })
+            .catch(error => console.error('Erro ao carregar as perguntas:', error));
+    </script>
+</body>
+</html>
+``
